@@ -1,0 +1,41 @@
+<div class="container d-flex justify-content-center mt-5">
+
+  <div class="find-patient-card">
+
+    <div class="card-header">
+      <h2 class="card-title">Find Patient</h2>
+    </div>
+
+    <div class="search-row">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Enter Patient ID"
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+      />
+      <button class="search-btn" (click)="onSearch()">
+        Search
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </div>
+
+    <ng-container *ngIf="foundPatient; else noResult">
+      <div class="result-box success" *ngFor="let patient of foundPatient">
+        <p class="result-name">Patient Found: <strong>{{ patient.name }}</strong></p>
+        <p class="result-id">ID: {{ patient.id }}</p>
+      </div>
+    </ng-container>
+
+    <ng-template #noResult>
+      <div class="result-box error" *ngIf="notFound">
+        <p class="result-name">No patient found for "<strong>{{ lastQuery }}</strong>"</p>
+      </div>
+    </ng-template>
+
+  </div>
+
+</div>

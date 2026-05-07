@@ -1,0 +1,129 @@
+.find-patient-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 28px 32px 32px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  max-width: 800px;
+  width: 100%;
+
+  .card-header {
+    margin-bottom: 20px;
+
+    .card-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #2D2D2D;
+      margin: 0;
+    }
+  }
+
+  .search-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    .search-input {
+      flex: 1;
+      height: 50px;
+      padding: 0 16px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #374151;
+      background-color: #f5f7fa;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &::placeholder {
+        color: #9ca3af;
+      }
+
+      &:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+    }
+
+    .search-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 22px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+      white-space: nowrap;
+
+
+      &:hover {
+        background: #1d4ed8;
+      }
+
+      &:active {
+        transform: scale(0.97);
+      }
+
+      .search-icon {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .result-box {
+    margin-top: 16px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    animation: fadeIn 0.25s ease;
+
+    &.success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+
+      .result-name,
+      .result-id {
+        color: #16a34a;
+      }
+    }
+
+    &.error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+
+      .result-name {
+        color: #dc2626;
+      }
+    }
+
+    .result-name {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+
+      strong {
+        font-weight: 700;
+      }
+    }
+
+    .result-id {
+      margin: 0;
+      font-size: 0.88rem;
+      opacity: 0.85;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
