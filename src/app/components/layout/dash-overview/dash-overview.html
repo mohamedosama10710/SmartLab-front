@@ -1,0 +1,91 @@
+<div class="dash-container">
+
+  <div class="dash-header">
+    <div>
+      <h1 class="dash-title">Dashboard Overview</h1>
+      <p class="dash-subtitle">Streamline lab data entry, validate results, and keep patient records accurate.</p>
+    </div>
+    <div class="dash-actions">
+      <button class="btn btn-primary">Add Patient</button>
+      <button class="btn btn-outline">Add Test</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of statsCards">
+      <div class="stat-top">
+        <div class="stat-icon" [style.backgroundColor]="stat.bg" [style.color]="stat.color">
+          <i [class]="stat.icon" style="font-size: 20px;"></i>
+        </div>
+        <span class="stat-label">{{ stat.title }}</span>
+      </div>
+      <div class="stat-number">{{ stat.value }}</div>
+    </div>
+  </div>
+
+  <div class="bottom-grid">
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <h3 class="ui-card-title">Recent Notifications</h3>
+        <select class="ui-select">
+          <option>This: Week</option>
+        </select>
+      </div>
+
+      <div class="chart-flex">
+        <div class="chart-wrapper">
+          <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+            [colors]="chartOptions.colors" [plotOptions]="chartOptions.plotOptions"
+            [dataLabels]="chartOptions.dataLabels" [stroke]="chartOptions.stroke" [legend]="chartOptions.legend"
+            [tooltip]="chartOptions.tooltip">
+          </apx-chart>
+        </div>
+
+        <div class="custom-legend">
+          <div class="legend-row">
+            <span class="dot bg-green"></span>
+            <span>sent to patient(compeleted)</span>
+          </div>
+          <div class="legend-row">
+            <span class="dot bg-navy"></span>
+            <span>ready to send</span>
+          </div>
+          <div class="legend-row">
+            <span class="dot bg-yellow"></span>
+            <span>In-Progress</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-card">
+      <div class="ui-card-header">
+        <h3 class="ui-card-title">Recent Notifications</h3>
+        <a href="#" class="ui-link">view all</a>
+      </div>
+
+      <div class="notif-list">
+        <div class="notif-item active-blue">
+          <div class="notif-text">
+            <p>New message from <strong>Ahmed Ali</strong></p>
+            <span>2 mins ago</span>
+          </div>
+        </div>
+        <div class="notif-item alert-red">
+          <div class="notif-text">
+            <p>System Alert</p>
+            <span>2 mins ago</span>
+          </div>
+        </div>
+        <div class="notif-item alert-red">
+          <div class="notif-text">
+            <p>System Alert</p>
+            <span>2 mins ago</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
