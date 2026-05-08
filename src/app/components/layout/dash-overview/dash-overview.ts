@@ -1,18 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgApexchartsModule } from 'ng-apexcharts';
-
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SharedPopUp } from '../../shared-pop-up/shared-pop-up';
+import { PopupData } from '../../../core/interfaces/popup';
 @Component({
   selector: 'app-dash-overview',
-  imports: [CommonModule, NgApexchartsModule],
+  imports: [CommonModule, NgApexchartsModule, MatDialogModule],
   templateUrl: './dash-overview.html',
   styleUrl: './dash-overview.css',
 })
 export class DashOverview {
+  // constructor(private dialog: MatDialog) {}// for test the pop up
+
   chartOptions: any = {
-    series: [60, 20, 20], 
+    series: [60, 20, 20],
     labels: ['sent to patient(compeleted)', 'ready to send', 'In-Progress'],
-    colors: ['#22c55e', '#1e293b', '#eab308'], 
+    colors: ['#22c55e', '#1e293b', '#eab308'],
     chart: {
       type: 'donut',
       height: 250,
@@ -55,10 +59,10 @@ export class DashOverview {
     stroke: {
       show: true,
       colors: ['#fff'],
-      width: 4, 
+      width: 4,
     },
     legend: {
-      show: false, 
+      show: false,
     },
     tooltip: {
       enabled: true,
@@ -69,7 +73,6 @@ export class DashOverview {
       },
     },
   };
-
 
   statsCards = [
     {
@@ -101,4 +104,48 @@ export class DashOverview {
       color: '#22c55e',
     },
   ];
+
+  addPatient() {
+    // const dialogData: PopupData = {
+    //   type: 'success',
+    //   title: 'Patient Records Added Successfully!',
+    //   description:
+    //     'The record for **Mohamed Ali** has been created and the Access ID has been generated.',
+    //   patientId: '#AD-45532',
+    //   showClose: true,
+    //   actions: [
+    //     { label: 'View Patient', type: 'outline', value: 'view' },
+    //     { label: 'Go Dashboard', type: 'primary', value: 'home' },
+    //   ],
+    // };
+
+    // const dialogRef = this.dialog.open(SharedPopUp, {
+    //   width: '420px',
+    //   data: dialogData,
+    //   panelClass: 'custom-popup-panel', 
+    // });
+
+    // dialogRef.afterClosed().subscribe((result) => {
+    //   console.log('The dialog was closed. Action:', result);
+    //   if (result === 'view') {
+    //   }
+    // });
+  }
+
+  addTest() {
+    // this.dialog.open(SharedPopUp, {
+    //   width: '400px',
+    //   data: {
+    //     type: 'danger',
+    //     title: 'Are You Sure You Want Cancel Test Results?',
+    //     description: 'by pressing cancel you will lose the test results',
+    //     showClose: true,
+    //     actions: [
+    //       { label: 'Cancel Results', type: 'danger', value: 'cancel' },
+    //       { label: 'Keep Results', type: 'primary', value: 'keep' },
+    //     ],
+    //   },
+    // });
+  }
 }
+
