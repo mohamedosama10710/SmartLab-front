@@ -1,25 +1,325 @@
 import { Routes } from '@angular/router';
 
-import { Home } from './components/home/home';
-import { NotFound } from './components/not-found/not-found';
-import { DashboardLayout } from './components/layout/dashboard-layout/dashboard-layout';
-import { DashOverview } from './components/layout/dash-overview/dash-overview';
+import { authGuard } from './core/guards/auth/auth-guard';
+import { roleGuard } from './core/guards/role/role-guard';
 
 export const routes: Routes = [
-  { path: '', component: Home, title: 'Default Page' },
-  { path: 'Home', component: Home, title: 'Home Page' },
+
+  /* =========================================================
+      PUBLIC LAYOUT
+  ========================================================= */
 
   {
-    path: 'dashboard',
-    component: DashboardLayout,
+    path: '',
+
+    loadComponent: () =>
+      import('./shared/components/layouts/main-layout/main-layout').then(
+        (c) => c.MainLayout
+      ),
+
     children: [
+
+      /* Landing Page */
+
       {
         path: '',
-        component: DashOverview,
-        title: 'Dashboard Overview',
+        loadComponent: () =>
+          import('./features/landing-page/landing-page').then(
+            (c) => c.LandingPage
+          ),
       },
+
+      /* Auth */
+
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./features/auth/login/login').then(
+            (c) => c.Login
+          ),
+      },
+
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./features/auth/register-patient/register-patient').then(
+            (c) => c.RegisterPatient
+          ),
+      },
+
+      {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('./features/auth/forgot-password/forgot-password').then(
+            (c) => c.ForgotPassword
+          ),
+      },
+
+      {
+        path: 'reset-password/:token',
+        loadComponent: () =>
+          import('./features/auth/reset-password/reset-password').then(
+            (c) => c.ResetPassword
+          ),
+      },
+
+      {
+        path: 'change-password',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/auth/change-password/change-password').then(
+            (c) => c.ChangePassword
+          ),
+      },
+
+      /* Public Booking */
+
+      {
+        path: 'appointments',
+        loadComponent: () =>
+          import('./features/patient/appointments/appointments').then(
+            (c) => c.Appointments
+          ),
+      },
+
     ],
   },
 
-  { path: '**', component: NotFound, title: 'Not Found Page' },
+  /* =========================================================
+      PATIENT DASHBOARD LAYOUT
+  ========================================================= */
+
+  {
+    path: 'patient',
+
+    loadComponent: () =>
+      import('./shared/components/layouts/dashboard-layout/dashboard-layout').then(
+        (c) => c.DashboardLayout
+      ),
+
+    canActivate: [authGuard, roleGuard],
+
+    data: { role: 'patient' },
+
+    children: [
+
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/patient/patient-dashboard/patient-dashboard').then(
+            (c) => c.PatientDashboard
+          ),
+      },
+
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/patient/profile/profile').then(
+            (c) => c.Profile
+          ),
+      },
+
+      {
+        path: 'reports',
+        loadComponent: () =>
+          import('./features/patient/my-reports/my-reports').then(
+            (c) => c.MyReports
+          ),
+      },
+
+      {
+        path: 'my-appointments',
+        loadComponent: () =>
+          import('./features/patient/my-appointments/my-appointments').then(
+            (c) => c.MyAppointments
+          ),
+      },
+
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+
+    ],
+  },
+
+  /* =========================================================
+      STAFF DASHBOARD LAYOUT
+  ========================================================= */
+
+  {
+    path: 'staff',
+
+    loadComponent: () =>
+      import('./shared/components/layouts/dashboard-layout/dashboard-layout').then(
+        (c) => c.DashboardLayout
+      ),
+
+    canActivate: [authGuard, roleGuard],
+
+    data: { role: 'staff' },
+
+    children: [
+
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/staff/staff-dashboard/staff-dashboard').then(
+            (c) => c.StaffDashboard
+          ),
+      },
+
+      {
+        path: 'schedule',
+        loadComponent: () =>
+          import('./features/shared-dashboard/daily-schedule/daily-schedule').then(
+            (c) => c.DailySchedule
+          ),
+      },
+
+      {
+        path: 'manage-patients',
+        loadComponent: () =>
+          import('./features/shared-dashboard/manage-patients/manage-patients').then(
+            (c) => c.ManagePatients
+          ),
+      },
+
+      {
+        path: 'reports',
+        loadComponent: () =>
+          import('./features/shared-dashboard/reports/reports').then(
+            (c) => c.Reports
+          ),
+      },
+
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./shared/components/account-settings/account-settings').then(
+            (c) => c.AccountSettings
+          ),
+      },
+
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+
+    ],
+  },
+
+  /* =========================================================
+      ADMIN DASHBOARD LAYOUT
+  ========================================================= */
+
+  {
+    path: 'admin',
+
+    loadComponent: () =>
+      import('./shared/components/layouts/dashboard-layout/dashboard-layout').then(
+        (c) => c.DashboardLayout
+      ),
+
+    canActivate: [authGuard, roleGuard],
+
+    data: { role: 'admin' },
+
+    children: [
+
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/admin/admin-dashboard/admin-dashboard').then(
+            (c) => c.AdminDashboard
+          ),
+      },
+
+      {
+        path: 'manage-staff',
+        loadComponent: () =>
+          import('./features/admin/manage-staff/manage-staff').then(
+            (c) => c.ManageStaff
+          ),
+      },
+
+      {
+        path: 'lab-settings',
+        loadComponent: () =>
+          import('./features/admin/lab-settings/lab-settings').then(
+            (c) => c.LabSettings
+          ),
+      },
+
+      {
+        path: 'test-references',
+        loadComponent: () =>
+          import('./features/admin/test-references/test-references').then(
+            (c) => c.TestReferences
+          ),
+      },
+
+      {
+        path: 'dangerous-reports',
+        loadComponent: () =>
+          import('./features/admin/dangerous-reports/dangerous-reports').then(
+            (c) => c.DangerousReports
+          ),
+      },
+
+      {
+        path: 'schedule',
+        loadComponent: () =>
+          import('./features/shared-dashboard/daily-schedule/daily-schedule').then(
+            (c) => c.DailySchedule
+          ),
+      },
+
+      {
+        path: 'manage-patients',
+        loadComponent: () =>
+          import('./features/shared-dashboard/manage-patients/manage-patients').then(
+            (c) => c.ManagePatients
+          ),
+      },
+
+      {
+        path: 'reports',
+        loadComponent: () =>
+          import('./features/shared-dashboard/reports/reports').then(
+            (c) => c.Reports
+          ),
+      },
+
+      {
+        path: 'settings',
+        loadComponent: () =>
+          import('./shared/components/account-settings/account-settings').then(
+            (c) => c.AccountSettings
+          ),
+      },
+
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
+      },
+
+    ],
+  },
+
+  /* =========================================================
+      NOT FOUND
+  ========================================================= */
+
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./features/not-found/not-found').then(
+        (c) => c.NotFound
+      ),
+  },
+
 ];

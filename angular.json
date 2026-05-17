@@ -3,11 +3,11 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "7d8cf54d-5cca-4fc9-a78b-bde2c2af5dd9"
+    "analytics": "3c153729-58ab-4da3-b7e6-35e486e73ecd"
   },
   "newProjectRoot": "projects",
   "projects": {
-    "SmartLap": {
+    "smartlab-frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -25,15 +25,15 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/material-theme.scss", "src/styles.css"],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "security": {
-              "allowedHosts": []
-            },
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "styles": [
+              "src/material-theme.scss",
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js" ,
+              "node_modules/apexcharts/dist/apexcharts.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -54,7 +54,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/app/core/environments/environment.ts",
+                  "with": "src/app/core/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -63,10 +69,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "SmartLap:build:production"
+              "buildTarget": "smartlab-frontend:build:production"
             },
             "development": {
-              "buildTarget": "SmartLap:build:development"
+              "buildTarget": "smartlab-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"

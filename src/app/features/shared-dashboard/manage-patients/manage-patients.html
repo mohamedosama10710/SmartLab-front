@@ -1,0 +1,262 @@
+<div class="patients-page">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <div>
+      <h3 class="page-title">
+        Manage Patients
+      </h3>
+
+      <p class="page-subtitle">
+        View and manage all patient records.
+      </p>
+    </div>
+
+    <button
+      class="btn-create"
+      (click)="openAddModal()">
+
+      <i class="fa fa-plus"></i>
+
+      Add Patient
+
+    </button>
+
+  </div>
+
+  <!-- Search -->
+  <div class="search-card">
+
+    <div class="search-input-wrap">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        type="text"
+        placeholder="Search by name, email, or patient ID..."
+        (keyup)="applyFilter($event)"
+      />
+
+    </div>
+
+  </div>
+
+  <!-- Table -->
+  <div class="table-card">
+
+    @if (isLoading) {
+
+      <div
+        class="text-center py-5 text-muted d-flex flex-column align-items-center justify-content-center"
+        style="min-height: 400px;">
+
+        <i class="fa-solid fa-spinner fa-spin fa-2x mb-2 text-primary"></i>
+
+        <span class="small">
+          Loading...
+        </span>
+
+      </div>
+
+    }
+
+    @else if (dataSource.filteredData.length === 0) {
+
+      <!-- Empty State -->
+      <div class="empty-state">
+
+        <i class="fa-regular fa-folder-open"></i>
+
+        <p>
+          No patients found.
+        </p>
+
+      </div>
+
+    }
+
+    @else {
+
+      <table class="patients-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Patient</th>
+
+            <th>Email</th>
+
+            <th>Age</th>
+
+            <th>Weight</th>
+
+            <th>Height</th>
+
+            <th>Diseases</th>
+
+            <th>Smoker</th>
+
+            <th>Actions</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let row of dataSource.filteredData">
+
+            <!-- PATIENT -->
+            <td>
+
+              <div class="patient-cell">
+
+                <div>
+
+                  <div class="patient-name">
+
+                    {{ row.accountId?.name }}
+
+                  </div>
+
+                  <div class="patient-id">
+
+                    #A-{{
+                      row._id?.slice(-6)
+                    }}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </td>
+
+            <!-- EMAIL -->
+            <td class="col-email">
+
+              {{ row.accountId?.email }}
+
+            </td>
+
+            <!-- AGE -->
+            <td>
+
+              {{ row.age }}
+
+            </td>
+
+            <!-- WEIGHT -->
+            <td>
+
+              {{ row.weight }}
+
+            </td>
+
+            <!-- HEIGHT -->
+            <td>
+
+              {{ row.height }}
+
+            </td>
+
+            <!-- DISEASES -->
+            <td>
+
+              <div class="tests-wrap">
+
+                <span
+                  class="test-tag"
+                  *ngFor="let disease of row.chronicDiseases">
+
+                  {{ disease }}
+
+                </span>
+
+                <span
+                  *ngIf="!row.chronicDiseases?.length"
+                  class="text-muted">
+
+                  None
+
+                </span>
+
+              </div>
+
+            </td>
+
+            <!-- SMOKER -->
+            <td>
+
+              <span
+                class="status-badge"
+                [ngClass]="{
+                  'status-pending': row.isSmoker,
+                  'status-completed': !row.isSmoker
+                }"
+                style="white-space: nowrap;"
+                >
+
+                {{
+                  row.isSmoker === true || row.isSmoker === 'true'
+                    ? 'Smoker'
+                    : 'Non Smoker'
+                }}
+
+              </span>
+
+            </td>
+
+            <!-- ACTIONS -->
+            <td>
+
+              <div class="actions-wrap">
+
+                <!-- Add Report -->
+                <button
+                  class="btn-action btn-report"
+                  title="Add Report"
+                  (click)="goToCreateReport(row)">
+
+                  <i class="fa-solid fa-file-circle-plus"></i>
+
+                </button>
+
+                <!-- Edit -->
+                <button
+                  class="btn-action btn-edit"
+                  title="Edit"
+                  (click)="openEditModal(row)">
+
+                  <i class="fa-regular fa-pen-to-square"></i>
+
+                </button>
+
+                <!-- Delete -->
+                <button
+                  class="btn-action btn-delete"
+                  title="Delete"
+                  (click)="deletePatient(row._id)">
+
+                  <i class="fa-regular fa-trash-can"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </div>
+
+</div>

@@ -1,0 +1,228 @@
+<div class="patients-page">
+
+  <!-- Header -->
+  <div class="page-header">
+
+    <div>
+
+      <h3 class="page-title">
+        Test References
+      </h3>
+
+      <p class="page-subtitle">
+        Manage laboratory ranges and critical values.
+      </p>
+
+    </div>
+
+    <button
+      class="btn-create"
+      (click)="openAddModal()">
+
+      <i class="fa-solid fa-plus"></i>
+
+      Add Reference
+
+    </button>
+
+  </div>
+
+
+  <!-- Table -->
+  <div class="table-card">
+
+    @if (isLoading) {
+
+      <div
+        class="text-center py-5 text-muted d-flex flex-column align-items-center justify-content-center"
+        style="min-height: 400px;">
+
+        <i class="fa-solid fa-spinner fa-spin fa-2x mb-3 text-primary"></i>
+
+        <span class="small">
+          Loading...
+        </span>
+
+      </div>
+
+    }
+
+    @else if (tests.length === 0) {
+
+      <div class="empty-state">
+
+        <i class="fa-regular fa-folder-open"></i>
+
+        <p>
+          No test references found.
+        </p>
+
+      </div>
+
+    }
+
+    @else {
+
+      <table class="patients-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Test</th>
+
+            <th>Category</th>
+
+            <th>Normal Range</th>
+
+            <th>Critical</th>
+
+            <th>Applicable</th>
+
+            <th>Actions</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of tests">
+
+            <!-- TEST -->
+            <td>
+
+              <div class="patient-cell">
+
+                <div>
+
+                  <div class="patient-name">
+
+                    {{ item.testName }}
+
+                  </div>
+
+                  <div class="patient-id">
+
+                    <i class="fa-solid fa-stethoscope me-1"></i>
+
+                    {{ item.referral || 'General' }}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </td>
+
+            <!-- CATEGORY -->
+            <td>
+
+              <span class="test-tag">
+
+                {{ item.category }}
+
+              </span>
+
+            </td>
+
+            <!-- RANGE -->
+            <td>
+
+              <div>
+
+                <strong>
+
+                  {{ item.min }} - {{ item.max }}
+
+                </strong>
+
+                <div class="patient-id mt-1">
+
+                  {{ item.unit }}
+
+                </div>
+
+              </div>
+
+            </td>
+
+            <!-- CRITICAL -->
+            <td>
+
+              <span
+                *ngIf="item.criticalRange"
+                class="status-badge status-pending">
+
+                L:
+                {{ item.criticalRange.low }}
+
+                /
+
+                H:
+                {{ item.criticalRange.high }}
+
+              </span>
+
+              <span
+                *ngIf="!item.criticalRange"
+                class="text-muted">
+
+                None
+
+              </span>
+
+            </td>
+
+            <!-- APPLICABLE -->
+            <td>
+
+              <span class="test-tag">
+
+                {{ item.applicableTo }}
+
+              </span>
+
+            </td>
+
+            <!-- ACTIONS -->
+            <td>
+
+              <div class="actions-wrap">
+
+                <!-- Edit -->
+                <button
+                  class="btn-action btn-edit"
+                  (click)="openEditModal(item)"
+                  title="Edit">
+
+                  <i class="fa-regular fa-pen-to-square"></i>
+
+                </button>
+
+                <!-- Delete -->
+                <button
+                  class="btn-action btn-delete"
+                  (click)="deleteTest(item._id)"
+                  title="Delete">
+
+                  <i class="fa-regular fa-trash-can"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </div>
+
+</div>

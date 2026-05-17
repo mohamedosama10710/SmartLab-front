@@ -1,19 +1,20 @@
-@import url(../node_modules/bootstrap/dist/css/bootstrap.min.css);
-@import url(../node_modules/bootstrap-icons/font/bootstrap-icons.css);
-body{
-  overflow-x: hidden;
-}
-html{
-  overflow-x: hidden;
+/* You can add global styles to this file, and also import other style files */
 
+html {
+  scroll-padding-top: 80px;
+  scroll-behavior: smooth;
 }
-.cdk-overlay-pane {
-  border-radius: 24px !important;
-  overflow: hidden !important;
+.custom-dialog-container .mdc-dialog__surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
-
 .success-snackbar {
-  background-color: #22c55e !important;
-  color: white !important;
-  border-radius: 8px !important;
+  --mdc-snackbar-container-color: #2e7d32;
+  --mat-mdc-snack-bar-button-color: white;
+}
+
+.error-snackbar {
+  --mdc-snackbar-container-color: #d32f2f;
+  --mat-mdc-snack-bar-button-color: white;
 }

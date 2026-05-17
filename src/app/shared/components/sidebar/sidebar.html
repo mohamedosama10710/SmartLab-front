@@ -1,0 +1,76 @@
+<div class="shell" [class.shell--collapsed]="!sidebarOpen">
+
+  <!-- زرار التوجل -->
+  <button
+    class="sidebar__toggle"
+    (click)="toggleSidebar()"
+    [title]="sidebarOpen ? 'Collapse' : 'Expand'">
+
+    <i
+      class="fa-solid"
+      [class.fa-bars]="!sidebarOpen && isMobile"
+      [class.fa-xmark]="sidebarOpen && isMobile"
+      [class.fa-angles-left]="sidebarOpen && !isMobile"
+      [class.fa-angles-right]="!sidebarOpen && !isMobile">
+    </i>
+  </button>
+
+  <aside class="sidebar">
+
+    <!-- Logo -->
+    <div class="sidebar__logo">
+      <div class="logo-icon text-primary">
+        <i class="fa-solid fa-microscope fa-2x"></i>
+      </div>
+
+      <span class="logo-text">EL-NOUR LAB</span>
+    </div>
+
+    <div class="sidebar__role">
+      <span class="role-badge" [ngClass]="roleBadgeClass">
+        {{ roleLabel }}
+      </span>
+    </div>
+
+    <div class="sidebar__divider"></div>
+
+    <nav class="sidebar__nav">
+
+      <a
+        *ngFor="let item of navItems"
+        [routerLink]="item.route"
+        routerLinkActive="nav-item--active"
+        class="nav-item"
+        [attr.title]="item.label"
+        (click)="onNavClick()">
+
+        <span class="nav-item__icon">
+          <i [class]="item.icon"></i>
+        </span>
+
+        <span class="nav-item__label">
+          {{ item.label }}
+        </span>
+
+        <span class="nav-item__pill"></span>
+
+      </a>
+
+    </nav>
+
+    <button class="sidebar__logout" (click)="logout()">
+      <i class="fa-solid fa-right-from-bracket"></i>
+
+      <span class="sidebar__logout-label">
+        Log Out
+      </span>
+    </button>
+
+  </aside>
+
+  <!-- Overlay -->
+  @if (sidebarOpen && isMobile) {
+    <div class="sidebar__overlay" (click)="toggleSidebar()"></div>
+  }
+
+</div>

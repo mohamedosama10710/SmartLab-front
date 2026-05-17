@@ -1,0 +1,239 @@
+<div class="patients-page">
+
+  <!-- Header -->
+
+  <div class="page-header">
+
+    <div>
+
+      <h3 class="page-title">
+        Manage Staff
+      </h3>
+
+      <p class="page-subtitle">
+        View and manage all laboratory staff records.
+      </p>
+
+    </div>
+
+    <button
+      class="btn-create"
+      (click)="openAddModal()">
+
+      <i class="fa fa-plus"></i>
+
+      Add Staff
+
+    </button>
+
+  </div>
+
+  <!-- Search -->
+
+  <div class="search-card">
+
+    <div class="search-input-wrap">
+
+      <i class="fa-solid fa-magnifying-glass"></i>
+
+      <input
+        type="text"
+        placeholder="Search by name or email..."
+        (keyup)="applyFilter($event)"
+      />
+
+    </div>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="table-card">
+
+    @if (isLoading) {
+
+      <div
+        class="text-center py-5 text-muted d-flex flex-column align-items-center justify-content-center"
+        style="min-height: 400px;">
+
+        <i class="fa-solid fa-spinner fa-spin fa-2x mb-2 text-primary"></i>
+
+        <span class="small">
+          Loading...
+        </span>
+
+      </div>
+
+    }
+
+    @else if (dataSource.filteredData.length === 0) {
+
+      <!-- Empty State -->
+
+      <div class="empty-state">
+
+        <i class="fa-regular fa-folder-open"></i>
+
+        <p>
+          No staff members found.
+        </p>
+
+      </div>
+
+    }
+
+    @else {
+
+      <table class="patients-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Staff</th>
+
+            <th>Email</th>
+
+            <th>Department</th>
+
+            <th>Shift</th>
+
+            <th>Salary</th>
+
+            <th>Actions</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let row of dataSource.filteredData">
+
+            <!-- STAFF -->
+
+            <td>
+
+              <div class="patient-cell">
+
+                <div>
+
+                  <div class="patient-name">
+
+                    {{ row.accountId?.name }}
+
+                  </div>
+
+                  <div class="patient-id">
+
+                    #S-{{
+                      row._id?.slice(-6)
+                    }}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </td>
+
+            <!-- EMAIL -->
+
+            <td class="col-email">
+
+              {{ row.accountId?.email }}
+
+            </td>
+
+            <!-- DEPARTMENT -->
+
+            <td>
+
+              <span class="test-tag">
+
+                {{ row.department }}
+
+              </span>
+
+            </td>
+
+            <!-- SHIFT -->
+
+            <td>
+
+              <span
+                class="status-badge"
+
+                [ngClass]="{
+                  'status-completed': row.shift === 'morning',
+                  'status-pending': row.shift === 'evening'
+                }">
+
+                {{
+                  row.shift === 'morning'
+                    ? 'Morning'
+                    : 'Evening'
+                }}
+
+              </span>
+
+            </td>
+
+            <!-- SALARY -->
+
+            <td>
+
+              <strong>
+
+                {{ row.salary }}
+
+              </strong>
+
+              EGP
+
+            </td>
+
+            <!-- ACTIONS -->
+
+            <td>
+
+              <div class="actions-wrap">
+
+                <!-- Edit -->
+
+                <button
+                  class="btn-action btn-edit"
+                  title="Edit"
+                  (click)="openEditModal(row)">
+
+                  <i class="fa-regular fa-pen-to-square"></i>
+
+                </button>
+
+                <!-- Delete -->
+
+                <button
+                  class="btn-action btn-delete"
+                  title="Delete"
+                  (click)="deleteStaff(row._id)">
+
+                  <i class="fa-regular fa-trash-can"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    }
+
+  </div>
+
+</div>
